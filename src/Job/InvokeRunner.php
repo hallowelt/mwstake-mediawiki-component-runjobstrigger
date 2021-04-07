@@ -7,14 +7,14 @@ use Job;
 use ConfigException;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Runner;
 
-class RunRunJobsTriggerRunner extends Job {
+class InvokeRunner extends Job {
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$dummyTitle = Title::newFromText( 'RunJobsTriggerRunner' );
-		parent::__construct( 'runRunJobsTriggerRunner', $dummyTitle );
+		parent::__construct( 'invokeRunner', $dummyTitle );
 	}
 
 	/**

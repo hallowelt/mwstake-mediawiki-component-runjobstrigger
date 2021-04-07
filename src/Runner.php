@@ -9,7 +9,7 @@ use DateTime;
 use Exception;
 use JobQueueGroup;
 use MediaWiki\MediaWikiServices;
-use MWStake\MediaWiki\Component\RunJobsTrigger\Job\RunRunJobsTriggerRunner;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
 
 class Runner {
 
@@ -131,12 +131,12 @@ class Runner {
 	 */
 	protected function checkHandlerInterface( $regKey ) {
 		$doesImplementInterface =
-			$this->currentTriggerHandler instanceof IRunJobsTriggerHandler;
+			$this->currentTriggerHandler instanceof IHandler;
 
 		if ( !$doesImplementInterface ) {
 			throw new Exception(
-				"RunJobsTriggerHandler factory '$regKey' did not return "
-					. "'IRunJobsTriggerHandler' instance!"
+				"Handler factory '$regKey' did not return "
+					. "'IHandler' instance!"
 			);
 		}
 	}
@@ -168,7 +168,7 @@ class Runner {
 			return;
 		}
 
-		JobQueueGroup::singleton()->push( new RunRunJobsTriggerRunner() );
+		JobQueueGroup::singleton()->push( new InvokeRunner() );
 	}
 
 	/**

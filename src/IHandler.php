@@ -5,7 +5,7 @@ namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 use Status;
 
-interface IRunJobsTriggerHandler {
+interface IHandler {
 
 	/**
 	 * @return Status

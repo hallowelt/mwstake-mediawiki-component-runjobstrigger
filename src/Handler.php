@@ -4,9 +4,9 @@ namespace MWStake;
 
 use Interval;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
-use MWStake\MediaWiki\Component\RunJobsTrigger\IRunJobsTriggerHandler;
+use MWStake\MediaWiki\Component\RunJobsTrigger\IHandler;
 
-abstract class RunJobsTriggerHandler implements IRunJobsTriggerHandler {
+abstract class Handler implements IHandler {
 
 	/**
 	 *

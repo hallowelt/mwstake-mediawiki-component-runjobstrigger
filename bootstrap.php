@@ -13,8 +13,8 @@ $GLOBALS['wgRunJobsTriggerOptions'] = [
 	]
 ];
 
-$GLOBALS['wgJobClasses']['runRunJobsTriggerRunner']
-	= "\\MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Job\\RunRunJobsTriggerRunner";
+$GLOBALS['wgJobClasses']['invokeRunner']
+	= "\\MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Job\\InvokeRunner";
 
 $GLOBALS['wgExtensionFunctions'][]
 	= "\\MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Runner::runDeferred";
