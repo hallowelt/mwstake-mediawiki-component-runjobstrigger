@@ -26,6 +26,9 @@
 		]
 	},
 	"scripts": {
+		"unittest": [
+			"vendor/phpunit/phpunit/phpunit ."
+		],
 		"test": [
 			"parallel-lint . --exclude vendor --exclude node_modules",
 			"minus-x check .",

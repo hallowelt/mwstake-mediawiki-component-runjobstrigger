@@ -4,8 +4,9 @@ namespace MWStake\MediaWiki\Component\Tests\RunJobsTrigger\Interval;
 
 use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek;
+use PHPUnit\Framework\TestCase;
 
-class OnceAWeekTest extends PHPUnit\Framework\TestCase {
+class OnceAWeekTest extends TestCase {
 	/**
 	 * @covers MWStake\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
 	 */

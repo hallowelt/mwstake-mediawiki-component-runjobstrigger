@@ -4,8 +4,9 @@ namespace MWStake\MediaWiki\Component\Tests\RunJobsTrigger\Interval;
 
 use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
+use PHPUnit\Framework\TestCase;
 
-class OnceADayTest extends PHPUnit\Framework\TestCase {
+class OnceADayTest extends TestCase {
 	/**
 	 * @covers MWStake\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
 	 */
