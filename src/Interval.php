@@ -1,13 +1,13 @@
 <?php
 
-namespace MWStake\RunJobsTrigger;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
 interface Interval {
 	/**
 	 *
-	 * @paramDateTime $currentRunTimestamp
+	 * @param DateTime $currentRunTimestamp
 	 * @param array $options
-	 * @returnDateTime
+	 * @return DateTime
 	 */
 	public function getNextTimestamp( $currentRunTimestamp, $options );
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace MWStake\RunJobsTrigger\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
-use MWStake\RunJobsTrigger\Interval;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
 class OnceADay implements Interval {
 
 	/**
 	 * Allows to shift execution of different handlers to avoid load peaks
-	 * @var int
+	 * @var  int
 	 */
 	protected static $instanceCounter = 0;
 
@@ -21,9 +21,9 @@ class OnceADay implements Interval {
 
 	/**
 	 *
-	 * @paramDateTime $currentRunTimestamp
+	 * @param DateTime $currentRunTimestamp
 	 * @param array $options
-	 * @returnDateTime
+	 * @return DateTime
 	 */
 	public function getNextTimestamp( $currentRunTimestamp, $options ) {
 		$nextTS = clone $currentRunTimestamp;

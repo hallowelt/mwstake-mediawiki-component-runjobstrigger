@@ -1,8 +1,11 @@
 <?php
 
-namespace MWStake;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-interface IRunJobsTrigger {
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
+use Status;
+
+interface IRunJobsTriggerHandler {
 
 	/**
 	 * @return Status
@@ -10,7 +13,7 @@ interface IRunJobsTrigger {
 	public function run();
 
 	/**
-	 * @return RunJobsTrigger\Interval
+	 * @return Interval
 	 */
 	public function getInterval();
 }

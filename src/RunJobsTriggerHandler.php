@@ -2,25 +2,27 @@
 
 namespace MWStake;
 
-use MWStake\RunJobsTrigger\Interval\OnceADay;
+use Interval;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
+use MWStake\MediaWiki\Component\RunJobsTrigger\IRunJobsTriggerHandler;
 
-abstract class RunJobsTrigger implements IRunJobsTrigger {
+abstract class RunJobsTriggerHandler implements IRunJobsTriggerHandler {
 
 	/**
 	 *
-	 * @varConfig
+	 * @var Config
 	 */
 	protected $config = null;
 
 	/**
 	 *
-	 * @varWikimedia\Rdbms\LoadBalancer
+	 * @var Wikimedia\Rdbms\LoadBalancer
 	 */
 	protected $loadBalancer = null;
 
 	/**
 	 *
-	 * @var INotifier
+	 * @var  INotifier
 	 */
 	protected $notifier = null;
 
@@ -62,7 +64,7 @@ abstract class RunJobsTrigger implements IRunJobsTrigger {
 
 	/**
 	 *
-	 * @return RunJobsTrigger\Interval
+	 * @return Interval
 	 */
 	public function getInterval() {
 		return new OnceADay();

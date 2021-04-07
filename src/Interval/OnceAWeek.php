@@ -1,16 +1,16 @@
 <?php
 
-namespace MWStake\RunJobsTrigger\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
-use MWStake\RunJobsTrigger\Interval;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
 class OnceAWeek implements Interval {
 
 	/**
 	 *
-	 * @paramDateTime $currentRunTimestamp
+	 * @param DateTime $currentRunTimestamp
 	 * @param array $options
-	 * @returnDateTime
+	 * @return DateTime
 	 */
 	public function getNextTimestamp( $currentRunTimestamp, $options ) {
 		$nextSunday = clone $currentRunTimestamp;

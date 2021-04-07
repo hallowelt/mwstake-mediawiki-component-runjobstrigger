@@ -1,13 +1,14 @@
 <?php
 
-namespace MWStake\RunJobsTrigger\Job;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Job;
 
-use MWStake\RunJobsTriggerRunner;
 use Title;
 use Job;
 use ConfigException;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Runner;
 
 class RunRunJobsTriggerRunner extends Job {
+
 	/**
 	 * Constructor
 	 */
@@ -22,6 +23,6 @@ class RunRunJobsTriggerRunner extends Job {
 	 * @throws ConfigException
 	 */
 	public function run() {
-		return RunJobsTriggerRunner::run();
+		return Runner::run();
 	}
 }

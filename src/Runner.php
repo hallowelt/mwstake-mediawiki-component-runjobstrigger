@@ -1,55 +1,57 @@
 <?php
 
-namespace MWStake;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use MWStake\RunJobsTrigger\Job\RunRunJobsTriggerRunner;
 use MediaWiki\Logger\LoggerFactory;
-use MWStake\RunJobsTrigger\JSONFileBasedRunConditionChecker;
+use MWStake\MediaWiki\Component\RunJobsTrigger\JSONFileBasedRunConditionChecker;
 use ConfigException;
 use DateTime;
+use Exception;
 use JobQueueGroup;
+use MediaWiki\MediaWikiServices;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Job\RunRunJobsTriggerRunner;
 
-class RunJobsTriggerRunner {
+class Runner {
 
 	/**
 	 *
-	 * @var IRegistry
+	 * @var  IRegistry
 	 */
 	protected $registry = null;
 
 	/**
 	 *
-	 * @varConfig
+	 * @var Config
 	 */
 	protected $config = null;
 
 	/**
 	 *
-	 * @varWikimedia\Rdbms\LoadBalancer
+	 * @var Wikimedia\Rdbms\LoadBalancer
 	 */
 	protected $loadBalancer = null;
 
 	/**
 	 *
-	 * @varPsr\Log\LoggerInterface
+	 * @var Psr\Log\LoggerInterface
 	 */
 	protected $logger = null;
 
 	/**
 	 *
-	 * @var INotifier
+	 * @var  INotifier
 	 */
 	protected $notifier = null;
 
 	/**
 	 *
-	 * @var RunJobsTrigger\IRunConditionChecker
+	 * @var  RunJobsTrigger\IRunConditionChecker
 	 */
 	protected $runConditionChecker = null;
 
 	/**
 	 *
-	 * @var IRunJobsTrigger
+	 * @var  IRunJobsTrigger
 	 */
 	protected $currentTriggerHandler = null;
 
@@ -92,7 +94,7 @@ class RunJobsTriggerRunner {
 				$start = new DateTime();
 				try {
 					$this->runCurrentHandler( $regKey );
-				} catch (Exception $ex ) {
+				} catch ( Exception $ex ) {
 					$message = $ex->getMessage();
 					$message .= "\n";
 					$message .= $ex->getTraceAsString();
@@ -129,12 +131,12 @@ class RunJobsTriggerRunner {
 	 */
 	protected function checkHandlerInterface( $regKey ) {
 		$doesImplementInterface =
-			$this->currentTriggerHandler instanceof IRunJobsTrigger;
+			$this->currentTriggerHandler instanceof IRunJobsTriggerHandler;
 
 		if ( !$doesImplementInterface ) {
 			throw new Exception(
-				"RunJobsTriggerHanlder factory '$regKey' did not return "
-					. "'IRunJobsTrigger' instance!"
+				"RunJobsTriggerHandler factory '$regKey' did not return "
+					. "'IRunJobsTriggerHandler' instance!"
 			);
 		}
 	}
@@ -166,9 +168,7 @@ class RunJobsTriggerRunner {
 			return;
 		}
 
-		JobQueueGroup::singleton()->push(
-			new RunRunJobsTriggerRunner()
-		);
+		JobQueueGroup::singleton()->push( new RunRunJobsTriggerRunner() );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class RunJobsTriggerRunner {
 	 * @throws ConfigException
 	 */
 	public static function run() {
-		$services =MWStake\Services::getInstance();
+		$services = MediaWikiServices::getInstance();
 
 		$registry = new ExtensionAttributeBasedRegistry(
 			'MWStakeFoundationRunJobsTriggerRegistry'
@@ -186,20 +186,11 @@ class RunJobsTriggerRunner {
 
 		$logger = LoggerFactory::getInstance( 'runjobs-trigger-runner' );
 
-		$runConditionChecker = new JSONFileBasedRunConditionChecker(
-			newDateTime(),
-			BSDATADIR,
-			$logger,
-			$services->getConfigFactory()->makeConfig( 'bsg' )
-		);
-
-		$runner = newMWStake\RunJobsTriggerRunner(
+		$runner = new Runner(
 			$registry,
 			$logger,
-			$runConditionChecker,
-			$services->getConfigFactory()->makeConfig( 'bsg' ),
-			$services->getDBLoadBalancer(),
-			$services->getService( 'BSNotificationManager' )->getNotifier()
+			$services->getMainConfig(),
+			$services->getDBLoadBalancer()
 		);
 
 		$runner->execute();

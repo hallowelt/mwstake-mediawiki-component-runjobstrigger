@@ -1,9 +1,9 @@
 <?php
 
-namespace MWStake\Tests\RunJobsTrigger\Interval;
+namespace MWStake\MediaWiki\Component\Tests\RunJobsTrigger\Interval;
 
 use DateTime;
-use MWStake\RunJobsTrigger\Interval\OnceADay;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
 
 class OnceADayTest extends PHPUnit\Framework\TestCase {
 	/**
