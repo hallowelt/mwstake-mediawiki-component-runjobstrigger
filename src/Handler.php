@@ -3,8 +3,9 @@
 namespace MWStake;
 
 use Interval;
-use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
 use MWStake\MediaWiki\Component\RunJobsTrigger\IHandler;
+use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
+use Wikimedia\Rdbms\LoadBalancer;
 
 abstract class Handler implements IHandler {
 
@@ -16,49 +17,40 @@ abstract class Handler implements IHandler {
 
 	/**
 	 *
-	 * @var Wikimedia\Rdbms\LoadBalancer
+	 * @var LoadBalancer
 	 */
 	protected $loadBalancer = null;
 
 	/**
-	 *
-	 * @var  INotifier
-	 */
-	protected $notifier = null;
-
-	/**
-	 * @paramConfig $config
-	 * @paramWikimedia\Rdbms\LoadBalancer $loadBalancer
-	 * @param INotifier $notifier
+	 * @param Config $config
+	 * @param LoadBalancer $loadBalancer
 	 * @return IRunJobsTrigger
 	 */
-	public static function factory( $config, $loadBalancer, $notifier ) {
+	public static function factory( $config, $loadBalancer ) {
 		$className = static::class;
-		return new $className( $config, $loadBalancer, $notifier );
+		return new $className( $config, $loadBalancer );
 	}
 
 	/**
 	 *
-	 * @paramConfig $config
-	 * @paramWikimedia\Rdbms\LoadBalancer $loadBalancer
-	 * @param INotifier $notifier
+	 * @param Config $config
+	 * @param LoadBalancer $loadBalancer
 	 */
-	public function __construct( $config, $loadBalancer, $notifier ) {
+	public function __construct( $config, $loadBalancer ) {
 		$this->config = $config;
 		$this->loadBalancer = $loadBalancer;
-		$this->notifier = $notifier;
 	}
 
 	/**
 	 *
-	 * @returnStatus
+	 * @return Status
 	 */
 	public function run() {
 		return $this->doRun();
 	}
 
 	/**
-	 * @returnStatus
+	 * @return Status
 	 */
 	abstract protected function doRun();
 

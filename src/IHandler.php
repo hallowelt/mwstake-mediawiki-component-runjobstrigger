@@ -2,7 +2,6 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 use Status;
 
 interface IHandler {

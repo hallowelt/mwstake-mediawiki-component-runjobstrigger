@@ -2,14 +2,15 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use MediaWiki\Logger\LoggerFactory;
-use MWStake\MediaWiki\Component\RunJobsTrigger\JSONFileBasedRunConditionChecker;
 use ConfigException;
 use DateTime;
 use Exception;
 use JobQueueGroup;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
+use Psr\Log\LoggerInterface;
+use Wikimedia\Rdbms\LoadBalancer;
 
 class Runner {
 
@@ -27,27 +28,15 @@ class Runner {
 
 	/**
 	 *
-	 * @var Wikimedia\Rdbms\LoadBalancer
+	 * @var LoadBalancer
 	 */
 	protected $loadBalancer = null;
 
 	/**
 	 *
-	 * @var Psr\Log\LoggerInterface
+	 * @var LoggerInterface
 	 */
 	protected $logger = null;
-
-	/**
-	 *
-	 * @var  INotifier
-	 */
-	protected $notifier = null;
-
-	/**
-	 *
-	 * @var  RunJobsTrigger\IRunConditionChecker
-	 */
-	protected $runConditionChecker = null;
 
 	/**
 	 *
@@ -58,20 +47,15 @@ class Runner {
 	/**
 	 *
 	 * @param IRegistry $registry
-	 * @paramPsr\Log\LoggerInterface $logger
-	 * @param RunJobsTrigger\IRunConditionChecker $runConditionChecker
-	 * @paramConfig $config
-	 * @paramWikimedia\Rdbms\LoadBalancer $loadBalancer
-	 * @param INotifier $notifier
+	 * @param LoggerInterface $logger
+	 * @param Config $config
+	 * @param LoadBalancer $loadBalancer
 	 */
-	public function __construct( $registry, $logger, $runConditionChecker, $config,
-		$loadBalancer, $notifier ) {
+	public function __construct( $registry, $logger, $config, $loadBalancer ) {
 		$this->registry = $registry;
 		$this->logger = $logger;
-		$this->runConditionChecker = $runConditionChecker;
 		$this->config = $config;
 		$this->loadBalancer = $loadBalancer;
-		$this->notifier = $notifier;
 	}
 
 	public function execute() {
@@ -83,8 +67,7 @@ class Runner {
 				$factoryCallback,
 				[
 					$this->config,
-					$this->loadBalancer,
-					$this->notifier
+					$this->loadBalancer
 				]
 			);
 
@@ -127,7 +110,7 @@ class Runner {
 	/**
 	 *
 	 * @param string $regKey
-	 * @throwsException
+	 * @throws Exception
 	 */
 	protected function checkHandlerInterface( $regKey ) {
 		$doesImplementInterface =
@@ -143,7 +126,7 @@ class Runner {
 
 	/**
 	 * @param string $regKey
-	 * @throwsException
+	 * @throws Exception
 	 */
 	protected function runCurrentHandler( $regKey ) {
 		$status = $this->currentTriggerHandler->run();
