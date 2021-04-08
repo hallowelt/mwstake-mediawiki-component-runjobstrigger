@@ -1,9 +1,8 @@
 <?php
 
-namespace MWStake;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
 use Interval;
-use MWStake\MediaWiki\Component\RunJobsTrigger\IHandler;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
 use Wikimedia\Rdbms\LoadBalancer;
 
@@ -26,7 +25,7 @@ abstract class Handler implements IHandler {
 	 * @param LoadBalancer $loadBalancer
 	 * @return IRunJobsTrigger
 	 */
-	public static function factory( $config, $loadBalancer ) {
+	public static function getInstance( $config, $loadBalancer ) {
 		$className = static::class;
 		return new $className( $config, $loadBalancer );
 	}

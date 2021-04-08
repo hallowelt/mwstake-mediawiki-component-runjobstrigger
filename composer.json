@@ -2,7 +2,7 @@
 	"name": "mwstake/mediawiki-component-runjobstrigger",
 	"description": "Provides background tasks infrastructure based on MediaWikis `maintenance/runJobs.php`",
 	"license": "GPL-3.0-only",
-	"version": "1.1",
+	"version": "1.0",
 	"authors": [
 		{
 			"name": "BlueSpice",
@@ -27,7 +27,7 @@
 	},
 	"scripts": {
 		"unittest": [
-			"vendor/phpunit/phpunit/phpunit ."
+			"vendor/phpunit/phpunit/phpunit --configuration .phpunit.xml"
 		],
 		"test": [
 			"parallel-lint . --exclude vendor --exclude node_modules",

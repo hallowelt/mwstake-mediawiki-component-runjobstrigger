@@ -5,32 +5,14 @@ namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 use ConfigException;
 use DateTime;
 use Exception;
+use GlobalVarConfig;
 use JobQueueGroup;
 use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
 use Psr\Log\LoggerInterface;
-use Wikimedia\Rdbms\LoadBalancer;
+use Wikimedia\ObjectFactory;
 
 class Runner {
-
-	/**
-	 *
-	 * @var  IRegistry
-	 */
-	protected $registry = null;
-
-	/**
-	 *
-	 * @var Config
-	 */
-	protected $config = null;
-
-	/**
-	 *
-	 * @var LoadBalancer
-	 */
-	protected $loadBalancer = null;
 
 	/**
 	 *
@@ -40,38 +22,14 @@ class Runner {
 
 	/**
 	 *
-	 * @var  IRunJobsTrigger
-	 */
-	protected $currentTriggerHandler = null;
-
-	/**
-	 *
-	 * @param IRegistry $registry
 	 * @param LoggerInterface $logger
-	 * @param Config $config
-	 * @param LoadBalancer $loadBalancer
 	 */
-	public function __construct( $registry, $logger, $config, $loadBalancer ) {
-		$this->registry = $registry;
+	public function __construct( $logger ) {
 		$this->logger = $logger;
-		$this->config = $config;
-		$this->loadBalancer = $loadBalancer;
 	}
 
 	public function execute() {
 		$this->logger->info( "Start processing at " . date( 'Y-m-d H:i:s' ) );
-		$factoryKeys = $this->registry->getAllKeys();
-		foreach ( $factoryKeys as $regKey ) {
-			$factoryCallback = $this->registry->getValue( $regKey );
-			$this->currentTriggerHandler = call_user_func_array(
-				$factoryCallback,
-				[
-					$this->config,
-					$this->loadBalancer
-				]
-			);
-
-			$this->checkHandlerInterface( $regKey );
 			if ( $this->shouldRunCurrentHandler( $regKey ) ) {
 				$this->logger->info( "Running handler for '$regKey'" );
 				$start = new DateTime();
@@ -93,35 +51,6 @@ class Runner {
 					. " run-condition-check"
 				);
 			}
-		}
-	}
-
-	/**
-	 *
-	 * @param string $regKey
-	 * @return bool
-	 */
-	protected function shouldRunCurrentHandler( $regKey ) {
-		return $this->runConditionChecker->shouldRun(
-			$this->currentTriggerHandler, $regKey
-		);
-	}
-
-	/**
-	 *
-	 * @param string $regKey
-	 * @throws Exception
-	 */
-	protected function checkHandlerInterface( $regKey ) {
-		$doesImplementInterface =
-			$this->currentTriggerHandler instanceof IHandler;
-
-		if ( !$doesImplementInterface ) {
-			throw new Exception(
-				"Handler factory '$regKey' did not return "
-					. "'IHandler' instance!"
-			);
-		}
 	}
 
 	/**
@@ -161,20 +90,18 @@ class Runner {
 	 * @throws ConfigException
 	 */
 	public static function run() {
-		$services = MediaWikiServices::getInstance();
-
-		$registry = new ExtensionAttributeBasedRegistry(
-			'MWStakeFoundationRunJobsTriggerRegistry'
-		);
-
+		$mwsRunJobsTriggerConfig = new GlobalVarConfig( 'mwsgRunJobsTrigger' );
 		$logger = LoggerFactory::getInstance( 'runjobs-trigger-runner' );
 
-		$runner = new Runner(
-			$registry,
-			$logger,
-			$services->getMainConfig(),
-			$services->getDBLoadBalancer()
-		);
+		$handlerFactories = $mwsRunJobsTriggerConfig->get( 'HandlerFactories' );
+		$handlers = [];
+		foreach ( $handlerFactories as $handlerFactorySpec ) {
+			/** @var IHandlerFactory */
+			$handlerFactory = ObjectFactory::getObjectFromSpec( $handlerFactorySpec );
+			$handlers = $handlerFactory->processHandlers( $handlers );
+		}
+
+		$runner = new Runner( $logger );
 
 		$runner->execute();
 
