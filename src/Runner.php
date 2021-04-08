@@ -41,58 +41,85 @@ class Runner {
 		$this->logger = $logger;
 	}
 
+	/**
+	 * @var IHandler
+	 */
+	private $currentHandler = null;
+
 	public function execute() {
 		$this->logger->info( "Start processing at " . date( 'Y-m-d H:i:s' ) );
+
 		foreach ( $this->handlers as $handler ) {
-			if ( $this->statusManager->getStatus( $handler ) !== IStatusManager::STATUS_RUNNING ) {
-				$this->logger->info( "Running handler for '{key}'", [
-					'key' => $handler->getKey()
-				] );
+			$this->currentHandler = $handler;
 
-				$start = new DateTime();
-				try {
-					$status = $handler->run();
-				} catch ( Exception $ex ) {
-					$msg = $ex->getMessage();
-					$this->logger->critical( $msg, [
-						'exception' => $ex
-					] );
+			if ( $this->shouldRunCurrentHandler() ) {
+				$this->runCurrentHandler();
+			}
+		}
 
-					$this->statusManager->setStatus(
-						$handler, IStatusManager::STATUS_FAILED, $msg
-					);
-				}
-				$end = new DateTime();
+		$this->logger->info( "End processing at " . date( 'Y-m-d H:i:s' ) );
+	}
 
-				$handlerRunTime = $end->diff( $start );
-				$formattedHandlerRunTime = $handlerRunTime->format( '%Im %Ss' );
-				$this->logger->info( "Time: $formattedHandlerRunTime" );
+	private function shouldRunCurrentHandler() {
+		$status = $this->statusManager->getStatus( $this->currentHandler, new DateTime() );
+		if ( $status === IStatusManager::STATUS_RUNNING ) {
+			$this->logger->info(
+				"Handler '{key}' is already running.",
+				[
+					'key' => $this->currentHandler->getKey()
+				]
+			);
+			return false;
+		}
+		if ( $status !== IStatusManager::STATUS_READY ) {
+			$this->logger->info(
+				"Handler '{key}' has status '{status}' and threfore is not ready.",
+				[
+					'key' => $this->currentHandler->getKey(),
+					'status' => $status
+				]
+			);
+			return false;
+		}
+		return true;
+	}
 
-				if ( !$status->isOK() ) {
-					$this->logger->error(
-						"There was a error during run of handler for '{key}': {message}", [
-							'key' => $handler->getKey(),
-							'message' => $status->getMessage()->plain()
-						]
-					);
-				}
+	private function runCurrentHandler() {
+		$this->logger->info( "Start handler '{key}'", [
+			'key' => $this->currentHandler->getKey()
+		] );
 
-				$statusMsg = $status->getValue();
-				if ( !is_string( $statusMsg ) ) {
-					$statusMsg = '';
-				}
-				$this->statusManager->setStatus(
-					$handler, IStatusManager::STATUS_ENDED, $statusMsg
-				);
-			} else {
-				$this->logger->info(
-					"Skipped run of handler for '{key}' due to status check",
-					[
-						'key' => $handler->getKey()
+		$start = new DateTime();
+		try {
+			$this->statusManager->setRunning( $this->currentHandler );
+			$status = $this->currentHandler->run();
+			if ( !$status->isOK() ) {
+				$this->logger->error(
+					"There was a error during run of handler for '{key}': {message}", [
+						'key' => $this->currentHandler->getKey(),
+						'message' => $status->getMessage()->plain()
 					]
 				);
 			}
+
+			$statusMsg = $status->getValue();
+			if ( !is_string( $statusMsg ) ) {
+				$statusMsg = '';
+			}
+			$this->statusManager->setEnded( $this->currentHandler, $statusMsg );
+		} catch ( Exception $ex ) {
+			$msg = $ex->getMessage();
+			$this->logger->critical( $msg, [
+				'exception' => $ex
+			] );
+
+			$this->statusManager->setFailed( $this->currentHandler, $msg );
 		}
+		$end = new DateTime();
+
+		$handlerRunTime = $end->diff( $start );
+		$formattedHandlerRunTime = $handlerRunTime->format( '%Im %Ss' );
+		$this->logger->info( "Time: $formattedHandlerRunTime" );
 	}
 
 	/**

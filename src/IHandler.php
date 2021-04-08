@@ -4,6 +4,9 @@ namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
 use Status;
 
+/**
+ * @stable
+ */
 interface IHandler {
 
 	/**

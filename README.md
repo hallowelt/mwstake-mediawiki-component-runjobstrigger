@@ -26,26 +26,17 @@ In the `getInterval` method you can return any object that implements `MWStake\M
 ### Register a handler
 
 There are two ways to register a handler:
-1. Using the `attribute.mws.runjobtriggerhandlers` registry in `extension.json`
+1. Using the `mwsgRunJobsTriggerHandlerRegistry` GlobalVars configuraton
 2. Using the hook `MWStakeRunJobsTriggerRegisterHandlers`
 
 On both cases a [ObjectFactory specification](https://www.mediawiki.org/wiki/ObjectFactory) must be provided.
 
-*Example 1: extension.json*
+*Example 1: GlobalVars*
 
-    {
-        ...
-        "attributes": {
-            "mws": {
-                "runjobtriggerhandlers": {
-                    "my-own-handler": {
-                        "class": "\\MediaWiki\Extension\\MyExt\\MyHandler",
-                        "services": "MainConfig"
-                    }
-                }
-            }
-        }
-    }
+    $GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
+        'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
+        'services' => 'MainConfig'
+    ];
 
 *Example 2: Hookhandler*
 
