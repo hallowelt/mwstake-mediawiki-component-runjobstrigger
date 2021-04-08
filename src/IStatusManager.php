@@ -18,7 +18,22 @@ interface IStatusManager {
 	 * @param IHandler $handler
 	 * @param string $status One of IStatusManager:STATUS_* values
 	 * @param string $message Arbitrary message to persist
-	 * @return string
+	 * @return void
 	 */
 	public function setStatus( $handler, $status, $message = '' );
+
+	/**
+	 * In form of
+	 * [
+	 *     '*' => [
+	 *         ...
+	 *     ],
+	 *     'concrete-handler-key' => [
+	 *         ...
+	 *     ]
+	 * ]
+	 * @param array $options
+	 * @return void
+	 */
+	public function setOptions( $options );
 }

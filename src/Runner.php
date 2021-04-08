@@ -124,8 +124,11 @@ class Runner {
 			$handlers = $handlerFactory->processHandlers( $handlers );
 		}
 
-		$workingDir = $mwsRunJobsTriggerConfig->get( 'mwsgRunJobsTriggerRunnerWorkingDir' );
+		$workingDir = $mwsRunJobsTriggerConfig->get( 'RunnerWorkingDir' );
 		$statusManager = new JSONFileStatusManager( $workingDir );
+
+		$options = $mwsRunJobsTriggerConfig->get( 'Options' );
+		$statusManager->setOptions( $options );
 
 		$runner = new Runner( $handlers, $statusManager, $logger );
 		$runner->execute();

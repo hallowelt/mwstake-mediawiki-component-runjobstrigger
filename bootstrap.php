@@ -25,7 +25,7 @@ $GLOBALS['mwsgRunJobsTriggerHandlerFactories'] = [
 	]
 ];
 
-$GLOBALS['mwsgRunJobsTriggerRunnerWorkingDir'] = false;
+$GLOBALS['mwsgRunJobsTriggerRunnerWorkingDir'] = sys_get_temp_dir();
 
 $GLOBALS['wgJobClasses']['invokeRunner']
 	= "\\MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Job\\InvokeRunner";

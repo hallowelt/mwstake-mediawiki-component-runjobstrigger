@@ -1,6 +1,6 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\Tests\RunJobsTrigger\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Interval;
 
 use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek;

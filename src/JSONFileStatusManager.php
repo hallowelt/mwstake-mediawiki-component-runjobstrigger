@@ -10,6 +10,11 @@ class JSONFileStatusManager implements IStatusManager {
 	private $workingdir = '';
 
 	/**
+	 * @var array
+	 */
+	private $options = [];
+
+	/**
 	 * @param string $workingdir
 	 */
 	public function __construct( $workingdir ) {
@@ -19,13 +24,21 @@ class JSONFileStatusManager implements IStatusManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function getStatus( $handler ) {
+	public function setOptions( $options ) {
+		$this->options = $options;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function setStatus( $handler, $status, $message ) {
+	public function getStatus( $handler ) {
+		return static::STATUS_ENDED;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setStatus( $handler, $status, $message = '' ) {
 	}
 
 }
