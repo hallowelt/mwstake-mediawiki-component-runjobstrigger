@@ -7,6 +7,11 @@ use Status;
 interface IHandler {
 
 	/**
+	 * @return string
+	 */
+	public function getKey();
+
+	/**
 	 * @return Status
 	 */
 	public function run();

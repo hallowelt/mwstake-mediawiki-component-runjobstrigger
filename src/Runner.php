@@ -18,57 +18,80 @@ class Runner {
 	 *
 	 * @var LoggerInterface
 	 */
-	protected $logger = null;
+	private $logger = null;
 
 	/**
-	 *
+	 * @var IHandler[]
+	 */
+	private $handlers = [];
+
+	/**
+	 * @var IStatusManager
+	 */
+	private $statusManager = null;
+
+	/**
+	 * @param IHandler[] $handlers
+	 * @param IStatusManager $statusManager
 	 * @param LoggerInterface $logger
 	 */
-	public function __construct( $logger ) {
+	public function __construct( $handlers, $statusManager, $logger ) {
+		$this->handlers = $handlers;
+		$this->statusManager = $statusManager;
 		$this->logger = $logger;
 	}
 
 	public function execute() {
 		$this->logger->info( "Start processing at " . date( 'Y-m-d H:i:s' ) );
-			if ( $this->shouldRunCurrentHandler( $regKey ) ) {
-				$this->logger->info( "Running handler for '$regKey'" );
+		foreach ( $this->handlers as $handler ) {
+			if ( $this->statusManager->getStatus( $handler ) !== IStatusManager::STATUS_RUNNING ) {
+				$this->logger->info( "Running handler for '{key}'", [
+					'key' => $handler->getKey()
+				] );
+
 				$start = new DateTime();
 				try {
-					$this->runCurrentHandler( $regKey );
+					$status = $handler->run();
 				} catch ( Exception $ex ) {
-					$message = $ex->getMessage();
-					$message .= "\n";
-					$message .= $ex->getTraceAsString();
-					$this->logger->critical( $message );
+					$msg = $ex->getMessage();
+					$this->logger->critical( $msg, [
+						'exception' => $ex
+					] );
+
+					$this->statusManager->setStatus(
+						$handler, IStatusManager::STATUS_FAILED, $msg
+					);
 				}
 				$end = new DateTime();
+
 				$handlerRunTime = $end->diff( $start );
 				$formattedHandlerRunTime = $handlerRunTime->format( '%Im %Ss' );
 				$this->logger->info( "Time: $formattedHandlerRunTime" );
+
+				if ( !$status->isOK() ) {
+					$this->logger->error(
+						"There was a error during run of handler for '{key}': {message}", [
+							'key' => $handler->getKey(),
+							'message' => $status->getMessage()->plain()
+						]
+					);
+				}
+
+				$statusMsg = $status->getValue();
+				if ( !is_string( $statusMsg ) ) {
+					$statusMsg = '';
+				}
+				$this->statusManager->setStatus(
+					$handler, IStatusManager::STATUS_ENDED, $statusMsg
+				);
 			} else {
 				$this->logger->info(
-					"Skipped run of handler for '$regKey' due to"
-					. " run-condition-check"
+					"Skipped run of handler for '{key}' due to status check",
+					[
+						'key' => $handler->getKey()
+					]
 				);
 			}
-	}
-
-	/**
-	 * @param string $regKey
-	 * @throws Exception
-	 */
-	protected function runCurrentHandler( $regKey ) {
-		$status = $this->currentTriggerHandler->run();
-		if ( $status->isOK() ) {
-			$this->logger->info(
-				"Successfully ran handler for '$regKey'"
-			);
-		} else {
-			$messageText = $status->getMessage()->plain();
-			$this->logger->error(
-				"There was a error during run of handler for '$regKey':"
-				. "\n$messageText"
-			);
 		}
 	}
 
@@ -101,8 +124,10 @@ class Runner {
 			$handlers = $handlerFactory->processHandlers( $handlers );
 		}
 
-		$runner = new Runner( $logger );
+		$workingDir = $mwsRunJobsTriggerConfig->get( 'mwsgRunJobsTriggerRunnerWorkingDir' );
+		$statusManager = new JSONFileStatusManager( $workingDir );
 
+		$runner = new Runner( $handlers, $statusManager, $logger );
 		$runner->execute();
 
 		return true;
