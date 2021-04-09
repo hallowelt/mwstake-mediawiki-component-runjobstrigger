@@ -44,6 +44,14 @@ class JSONFileStatusManager implements IStatusManager {
 				}
 			}
 		}
+
+		// Even though the status is actually FAILED, we currently return READY
+		// so the handler can be re-run
+		// In the future we should probably count the number of failures and report them
+		if ( $data['status'] === static::STATUS_FAILED ) {
+			return static::STATUS_READY;
+		}
+
 		return $data['status'];
 	}
 
