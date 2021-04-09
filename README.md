@@ -1,7 +1,9 @@
 ## MediaWiki Stakeholders Group - Components
 # RunJobsTrigger for MediaWiki
 
-Provides background tasks infrastructure based on MediaWikis `maintenance/runJobs.php`
+Provides background tasks infrastructure based on MediaWikis `maintenance/runJobs.php`.
+
+**This code is meant to be executed within the MediaWiki application context. No standalone usage is intended.**
 
 ## Prerequisites
 
@@ -11,7 +13,7 @@ The frequency of that job determines the minimum frequency at which handlers can
 
 ## Use in a MediaWiki extension
 
-Add `"mwstake/mediawiki-component-runjobstrigger": "~1.0"` to the `require` section of your `composer.json`
+Add `"mwstake/mediawiki-component-runjobstrigger": "~1.0"` to the `require` section of your `composer.json` file.
 
 ### Implement a handler
 
@@ -32,25 +34,26 @@ There are two ways to register a handler:
 On both cases a [ObjectFactory specification](https://www.mediawiki.org/wiki/ObjectFactory) must be provided.
 
 *Example 1: GlobalVars*
-
-    $GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
+```php
+$GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
+    'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
+    'services' => 'MainConfig'
+];
+```
+*Example 2: Hookhandler*
+```php
+$GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$handlers ) {
+    $handlers["my-own-handler"] = [
         'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
         'services' => 'MainConfig'
-    ];
-
-*Example 2: Hookhandler*
-
-    $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$handlers ) {
-        $handlers["my-own-handler"] = [
-            'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
-            'services' => 'MainConfig'
-        ]
-    }
+    ]
+}
+```
 
 ## Configuration
-- `mwsgRunJobsTriggerRunnerWorkingDir`: 
-- `mwsgRunJobsTriggerOptions`: 
-- `mwsgRunJobsTriggerHandlerRegistry`: 
+- `mwsgRunJobsTriggerRunnerWorkingDir`: Sets where to store data durin execution. If not set otherwise, the operating systems temp dir will be used
+- `mwsgRunJobsTriggerOptions`: Allows to change timing options for particular handlers. E.g. to run a `OnceAWeek` on Friday instead of Sunday.
+- `mwsgRunJobsTriggerHandlerRegistry`: Allows to add own handlers
 
 ## Debugging
 A debug log can be enabled by putting
