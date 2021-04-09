@@ -2,7 +2,7 @@
 	"name": "mwstake/mediawiki-component-runjobstrigger",
 	"description": "Provides background tasks infrastructure based on MediaWikis `maintenance/runJobs.php`",
 	"license": "GPL-3.0-only",
-	"version": "1.1",
+	"version": "1.0",
 	"authors": [
 		{
 			"name": "BlueSpice",
@@ -13,18 +13,22 @@
 		"jakub-onderka/php-parallel-lint": "1.0.0",
 		"jakub-onderka/php-console-highlighter": "0.4.0",
 		"mediawiki/mediawiki-codesniffer": "29.0.0",
-		"mediawiki/minus-x": "1.0.0"
+		"mediawiki/minus-x": "1.0.0",
+		"phpunit/phpunit": "^6.5"
 	},
 	"autoload": {
 		"psr-4": {
 			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\": "src/",
-			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\": "tests/"
+			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\": "tests/phpunit/"
 		},
 		"files": [
 			"bootstrap.php"
 		]
 	},
 	"scripts": {
+		"unittest": [
+			"vendor/phpunit/phpunit/phpunit --configuration .phpunit.xml"
+		],
 		"test": [
 			"parallel-lint . --exclude vendor --exclude node_modules",
 			"minus-x check .",
