@@ -5,7 +5,7 @@ namespace MWStake\MediaWiki\Component\RunJobsTrigger\HandlerFactory;
 use Config;
 use Hooks;
 use MediaWiki\MediaWikiServices;
-use Wikimedia\ObjectFactory;
+use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class Hook extends Base {
 

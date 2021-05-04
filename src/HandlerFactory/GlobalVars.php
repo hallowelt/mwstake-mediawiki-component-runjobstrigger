@@ -4,7 +4,7 @@ namespace MWStake\MediaWiki\Component\RunJobsTrigger\HandlerFactory;
 
 use Config;
 use GlobalVarConfig;
-use Wikimedia\ObjectFactory;
+use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class GlobalVars extends Base {
 
