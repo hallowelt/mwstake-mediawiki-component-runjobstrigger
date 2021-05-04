@@ -10,7 +10,6 @@ use JobQueueGroup;
 use MediaWiki\Logger\LoggerFactory;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
 use Psr\Log\LoggerInterface;
-use Wikimedia\ObjectFactory;
 
 class Runner {
 
