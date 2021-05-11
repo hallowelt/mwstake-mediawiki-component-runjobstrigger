@@ -60,20 +60,24 @@ $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$han
 ### Using MediaWiki’s temporary directory to store data during execution
 
 Suppose an administrator wants to ensure that they can ensure any temporary files are created in MediaWiki’s temporary directory rather than somewhere else.  They could do this by adding the following to their `LocalSettings.php`:
-```
+
+```php
 $GLOBALS['mwsgRunJobsTriggerRunnerWorkingDir'] = $wgTmpDirectory;
 ```
 
 ### Changing the timing options
 
 A wiki administrator could add the following to their `LocalSettings.php` to have `OnceAWeek` tasks run on Friday instead of Sunday (by default):
-```
+
+```php
 $GLOBALS['mwsgRunJobsTriggerOptions']['*']['once-a-week-day'] = 'friday';
 ```
 
 ## Debugging
 A debug log can be enabled by adding
 
-    $GLOBALS['wgDebugLogGroups']['runjobs-trigger-runner'] = "/tmp/runjobs-trigger-runner.log";
+```php
+$GLOBALS['wgDebugLogGroups']['runjobs-trigger-runner'] = "/tmp/runjobs-trigger-runner.log";
+```
 
 to your `LocalSettings.php` file
