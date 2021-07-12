@@ -46,7 +46,8 @@ $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$han
     $handlers["my-own-handler"] = [
         'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
         'services' => 'MainConfig'
-    ]
+    ];
+    return true;
 }
 ```
 
