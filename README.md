@@ -36,8 +36,8 @@ In both cases, an [ObjectFactory specification](https://www.mediawiki.org/wiki/O
 *Example 1: GlobalVars*
 ```php
 $GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
-    'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
-    'services' => 'MainConfig'
+    'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler',
+    'services' => [ 'MainConfig' ]
 ];
 ```
 *Example 2: Hookhandler*
@@ -45,7 +45,7 @@ $GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
 $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$handlers ) {
     $handlers["my-own-handler"] = [
         'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler',
-        'services' => 'MainConfig'
+        'services' => [ 'MainConfig' ]
     ];
     return true;
 };
