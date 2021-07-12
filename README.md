@@ -48,7 +48,7 @@ $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$han
         'services' => 'MainConfig'
     ];
     return true;
-}
+};
 ```
 
 ## Configuration
