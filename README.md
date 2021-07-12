@@ -17,7 +17,7 @@ Add `"mwstake/mediawiki-component-runjobstrigger": "~1.0"` to the `require` sect
 
 ### Implement a handler
 
-Create a class that implements `MWStake\MediaWiki\Component\RunJobsTrigger\IHandler`. For convenience, you may want to implement a subclass of the abstract base class `MWStake\MediaWiki\Component\RunJobsTrigger\HandlerBase`
+Create a class that implements `MWStake\MediaWiki\Component\RunJobsTrigger\IHandler`. For convenience, you may want to implement a subclass of the abstract base class `MWStake\MediaWiki\Component\RunJobsTrigger\Handler`
 
 In the `getInterval` method you can return any object that implements `MWStake\MediaWiki\Component\RunJobsTrigger\Interval`. There are a few predefined intevals available:
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay`
