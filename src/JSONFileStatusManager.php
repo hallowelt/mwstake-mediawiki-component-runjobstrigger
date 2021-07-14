@@ -173,4 +173,15 @@ class JSONFileStatusManager implements IStatusManager {
 	public function setRunning( $handler, $message = '' ) {
 		$this->setStatus( $handler, static::STATUS_RUNNING, $message );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function clear( $handler ) {
+		$filename = $this->getFilename( $handler );
+		if ( !is_file( $filename ) || !is_writable( $filename ) ) {
+			return;
+		}
+		unlink( $filename );
+	}
 }
