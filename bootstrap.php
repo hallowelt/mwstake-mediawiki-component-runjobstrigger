@@ -32,3 +32,6 @@ $GLOBALS['wgJobClasses']['invokeRunner']
 
 $GLOBALS['wgExtensionFunctions'][]
 	= "\\MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Runner::runDeferred";
+
+$GLOBALS['wgHooks']['LoadExtensionSchemaUpdates'][] = "\\MWStake\\MediaWiki\\Component\\"
+	. "RunJobsTrigger\\Hook\\LoadExtensionSchemaUpdates\\ClearJSONFiles::callback";

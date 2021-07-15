@@ -53,4 +53,10 @@ interface IStatusManager {
 	 * @return void
 	 */
 	public function setOptions( $options );
+
+	/**
+	 * @param IHandler $handler
+	 * @return void
+	 */
+	public function clear( $handler );
 }
