@@ -1,6 +1,6 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests;
 
 use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\IHandler;
