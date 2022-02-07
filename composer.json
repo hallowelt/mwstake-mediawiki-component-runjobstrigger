@@ -8,6 +8,9 @@
 			"email": "support@bluespice.com"
 		}
 	],
+	"require": {
+		"mwstake/mediawiki-componentloader": "~1"
+	},
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "1.0.0",
 		"jakub-onderka/php-console-highlighter": "0.4.0",
