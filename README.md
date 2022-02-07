@@ -13,7 +13,13 @@ The frequency of that job determines the minimum frequency at which handlers can
 
 ## Use in a MediaWiki extension
 
-Add `"mwstake/mediawiki-component-runjobstrigger": "~1.0"` to the `require` section of your `composer.json` file.
+Add `"mwstake/mediawiki-component-runjobstrigger": "~2.0"` to the `require` section of your `composer.json` file.
+
+Since 2.0 explicit initialization is required. This can be archived by
+- either adding `"callback": "mwsInitComponents"` to your `extension.json`/`skin.json`
+- or calling `mwsInitComponents();` within you extensions/skins custom `callback` method
+
+See also [`mwstake/mediawiki-componentloader`](https://github.com/hallowelt/mwstake-mediawiki-componentloader).
 
 ### Implement a handler
 

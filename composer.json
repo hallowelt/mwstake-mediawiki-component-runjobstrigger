@@ -9,7 +9,7 @@
 		}
 	],
 	"require": {
-		"mwstake/mediawiki-componentloader": "dev-master"
+		"mwstake/mediawiki-componentloader": "~1"
 	},
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "1.0.0",
