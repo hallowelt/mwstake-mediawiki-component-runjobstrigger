@@ -6,10 +6,10 @@ use DateTime;
 
 interface IStatusManager {
 
-	const STATUS_WAITING = 'waiting';
-	const STATUS_READY = 'ready';
-	const STATUS_RUNNING = 'running';
-	const STATUS_FAILED = 'failed';
+	public const STATUS_WAITING = 'waiting';
+	public const STATUS_READY = 'ready';
+	public const STATUS_RUNNING = 'running';
+	public const STATUS_FAILED = 'failed';
 
 	/**
 	 * @param IHandler $handler
