@@ -11,6 +11,7 @@ class ObjectFactory {
 	 * See `Wikimedia/ObjectFactory::getObjectFromSpec` for details
 	 *
 	 * @param array $spec
+	 * // phpcs:ignore MediaWiki.Commenting.FunctionComment.ObjectTypeHintReturn
 	 * @return object
 	 * @throws InvalidArgumentException
 	 * @throws UnexpectedValueException

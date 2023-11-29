@@ -11,9 +11,10 @@ use PHPUnit\Framework\TestCase;
 
 class JSONFileStatusManagerTest extends TestCase {
 
+	/** @var string */
 	private $workingDir = '';
 
-	public function setUp() : void {
+	public function setUp(): void {
 		$this->workingDir = sys_get_temp_dir() . '/' . microtime();
 		mkdir( $this->workingDir, 0777, true );
 		$testFileDir = __DIR__ . '/data/';

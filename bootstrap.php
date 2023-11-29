@@ -7,7 +7,7 @@ if ( defined( 'MWSTAKE_MEDIAWIKI_COMPONENT_RUNJOBSTRIGGER_VERSION' ) ) {
 define( 'MWSTAKE_MEDIAWIKI_COMPONENT_RUNJOBSTRIGGER_VERSION', '2.0.1' );
 
 MWStake\MediaWiki\ComponentLoader\Bootstrapper::getInstance()
-->register( 'runjobstrigger', function () {
+->register( 'runjobstrigger', static function () {
 	$GLOBALS['mwsgRunJobsTriggerOptions'] = [
 		"*" => [
 			"basetime" => [ 1, 0, 0 ],
