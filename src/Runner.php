@@ -6,8 +6,8 @@ use ConfigException;
 use DateTime;
 use Exception;
 use GlobalVarConfig;
-use JobQueueGroup;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
 use Psr\Log\LoggerInterface;
 
@@ -129,7 +129,8 @@ class Runner {
 			return;
 		}
 
-		JobQueueGroup::singleton()->push( new InvokeRunner() );
+		MediaWikiServices::getInstance()->getJobQueueGroupFactory()->makeJobQueueGroup()
+			->push( new InvokeRunner() );
 	}
 
 	/**
