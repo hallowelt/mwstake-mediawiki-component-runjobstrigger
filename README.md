@@ -23,6 +23,7 @@ In the `getInterval` method you can return any object that implements `MWStake\M
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay`
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek`
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceEveryHour`
+- `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceEveryQuarterHour`
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\TwiceADay`
 
 ### Register a handler
