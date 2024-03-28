@@ -6,7 +6,6 @@ use ConfigException;
 use DateTime;
 use Exception;
 use GlobalVarConfig;
-use JobQueueGroup;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
@@ -130,15 +129,9 @@ class Runner {
 			return;
 		}
 
-		$services = MediaWikiServices::getInstance();
-		$config = $services->getMainConfig();
-		$mwVersion = $config->get( 'Version' );
-		if ( version_compare( $mwVersion, '1.35', '>=' ) ) {
-			$services->getJobQueueGroupFactory()->makeJobQueueGroup()
-				->push( new InvokeRunner() );
-		} else {
-			JobQueueGroup::singleton()->push( new InvokeRunner() );
-		}
+		MediaWikiServices::getInstance()->getJobQueueGroupFactory()
+			->makeJobQueueGroup()
+			->push( new InvokeRunner() );
 	}
 
 	/**
