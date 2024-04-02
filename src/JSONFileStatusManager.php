@@ -127,7 +127,7 @@ class JSONFileStatusManager implements IStatusManager {
 
 		$fileData = file_get_contents( $filename );
 		$data = json_decode( $fileData, true );
-		if ( $data === false ) {
+		if ( !$data ) {
 			return $defaultData;
 		}
 
