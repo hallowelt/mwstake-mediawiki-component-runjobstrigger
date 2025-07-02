@@ -2,12 +2,12 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
+use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
 class OnceEveryHour implements Interval {
 
 	/**
-	 *
 	 * @param DateTime $currentRunTimestamp
 	 * @param array $options
 	 * @return DateTime

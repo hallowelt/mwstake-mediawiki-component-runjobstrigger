@@ -2,25 +2,18 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use Config;
-use Interval;
+use MediaWiki\Config\Config;
+use MediaWiki\Status\Status;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
-use Status;
 use Wikimedia\Rdbms\LoadBalancer;
 
 abstract class Handler implements IHandler {
 
-	/**
-	 *
-	 * @var Config
-	 */
-	protected $config = null;
+	/** @var Config */
+	protected $config;
 
-	/**
-	 *
-	 * @var LoadBalancer
-	 */
-	protected $loadBalancer = null;
+	/** @var LoadBalancer */
+	protected $loadBalancer;
 
 	/**
 	 * @param Config $config
@@ -33,7 +26,6 @@ abstract class Handler implements IHandler {
 	}
 
 	/**
-	 *
 	 * @param Config $config
 	 * @param LoadBalancer $loadBalancer
 	 */
@@ -43,7 +35,6 @@ abstract class Handler implements IHandler {
 	}
 
 	/**
-	 *
 	 * @return Status
 	 */
 	public function run() {
@@ -56,7 +47,6 @@ abstract class Handler implements IHandler {
 	abstract protected function doRun();
 
 	/**
-	 *
 	 * @return Interval
 	 */
 	public function getInterval() {

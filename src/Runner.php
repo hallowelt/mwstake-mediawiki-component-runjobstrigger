@@ -2,10 +2,10 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use ConfigException;
 use DateTime;
 use Exception;
-use GlobalVarConfig;
+use MediaWiki\Config\ConfigException;
+use MediaWiki\Config\GlobalVarConfig;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
@@ -13,21 +13,14 @@ use Psr\Log\LoggerInterface;
 
 class Runner {
 
-	/**
-	 *
-	 * @var LoggerInterface
-	 */
-	private $logger = null;
+	/** @var LoggerInterface */
+	private $logger;
 
-	/**
-	 * @var IHandler[]
-	 */
+	/** @var IHandler[] */
 	private $handlers = [];
 
-	/**
-	 * @var IStatusManager
-	 */
-	private $statusManager = null;
+	/** @var IStatusManager */
+	private $statusManager;
 
 	/**
 	 * @param IHandler[] $handlers

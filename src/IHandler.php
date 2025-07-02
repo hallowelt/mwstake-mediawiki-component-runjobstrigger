@@ -2,7 +2,7 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use Status;
+use MediaWiki\Status\Status;
 
 /**
  * @stable

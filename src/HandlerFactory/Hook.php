@@ -2,16 +2,14 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\HandlerFactory;
 
-use Config;
+use MediaWiki\Config\Config;
 use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class Hook extends Base {
 
-	/**
-	 * @var Config
-	 */
-	private $config = null;
+	/** @var Config */
+	private $config;
 
 	/**
 	 * @param Config|null $config

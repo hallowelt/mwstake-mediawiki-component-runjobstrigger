@@ -2,15 +2,14 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\Maintenance;
 
-use GlobalVarConfig;
-use LoggedUpdateMaintenance;
+use MediaWiki\Config\GlobalVarConfig;
+use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use MWStake\MediaWiki\Component\RunJobsTrigger\JSONFileStatusManager;
 use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class ClearJSONFiles extends LoggedUpdateMaintenance {
 
 	/**
-	 *
 	 * @return false
 	 */
 	protected function doDBUpdates() {
@@ -34,7 +33,6 @@ class ClearJSONFiles extends LoggedUpdateMaintenance {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	protected function getUpdateKey() {

@@ -8,14 +8,10 @@ use MWStake\MediaWiki\Component\RunJobsTrigger\IHandlerFactory;
 
 abstract class Base implements IHandlerFactory {
 
-	/**
-	 *
-	 * @var IHandler
-	 */
-	protected $currentTriggerHandler = null;
+	/** @var IHandler */
+	protected $currentTriggerHandler;
 
 	/**
-	 *
 	 * @param string $regKey
 	 * @throws Exception
 	 */

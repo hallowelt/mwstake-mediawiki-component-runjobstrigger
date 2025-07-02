@@ -2,13 +2,12 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\Hook\LoadExtensionSchemaUpdates;
 
-use DatabaseUpdater;
+use MediaWiki\Installer\DatabaseUpdater;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Maintenance\ClearJSONFiles as Maintenance;
 
 class ClearJSONFiles {
 
 	/**
-	 *
 	 * @param DatabaseUpdater $updater
 	 * @return bool
 	 */
@@ -17,14 +16,10 @@ class ClearJSONFiles {
 		return $provider->process();
 	}
 
-	/**
-	 *
-	 * @var DatabaseUpdater
-	 */
-	private $updater = null;
+	/** @var DatabaseUpdater */
+	private $updater;
 
 	/**
-	 *
 	 * @param DatabaseUpdater $updater
 	 */
 	public function __construct( $updater ) {
@@ -32,8 +27,6 @@ class ClearJSONFiles {
 	}
 
 	/**
-	 * Undocumented function
-	 *
 	 * @return void
 	 */
 	public function process() {

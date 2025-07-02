@@ -6,14 +6,10 @@ use DateTime;
 
 class JSONFileStatusManager implements IStatusManager {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $workingdir = '';
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $options = [];
 
 	/**

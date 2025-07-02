@@ -2,8 +2,10 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
+use InvalidArgumentException;
 use MediaWiki\MediaWikiServices;
-use Wikimedia\ObjectFactory as WikimediaObjectFactory;
+use UnexpectedValueException;
+use Wikimedia\ObjectFactory\ObjectFactory as WikimediaObjectFactory;
 
 class ObjectFactory {
 
