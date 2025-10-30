@@ -1,23 +1,29 @@
-name: basic-tests
+name: CI
 
-on: push
+on:
+  push:
+    branches: [ '**' ]
 
 jobs:
-  test:
+
+  php:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           tools: composer:2
+
+      - name: Validate composer.json
+        run: composer validate --strict
 
       - name: Install dependencies
         run: composer update
 
-      - name: Run check coding conventions
+      - name: Run tests
         run: composer test
-
