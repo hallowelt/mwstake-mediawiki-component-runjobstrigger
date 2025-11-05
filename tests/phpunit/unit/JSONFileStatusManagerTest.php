@@ -1,15 +1,15 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Unit;
 
 use DateTime;
+use MediaWikiUnitTestCase;
 use MWStake\MediaWiki\Component\RunJobsTrigger\IHandler;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceEveryHour;
 use MWStake\MediaWiki\Component\RunJobsTrigger\IStatusManager;
 use MWStake\MediaWiki\Component\RunJobsTrigger\JSONFileStatusManager;
-use PHPUnit\Framework\TestCase;
 
-class JSONFileStatusManagerTest extends TestCase {
+class JSONFileStatusManagerTest extends MediaWikiUnitTestCase {
 
 	/** @var string */
 	private $workingDir = '';

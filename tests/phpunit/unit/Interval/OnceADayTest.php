@@ -1,14 +1,14 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Unit\Interval;
 
 use DateTime;
+use MediaWikiUnitTestCase;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay;
-use PHPUnit\Framework\TestCase;
 
-class OnceADayTest extends TestCase {
+class OnceADayTest extends MediaWikiUnitTestCase {
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
 	 */
 	public function testCurrentDay() {
 		OnceADay::resetInstanceCounter();
@@ -25,7 +25,7 @@ class OnceADayTest extends TestCase {
 	}
 
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
 	 */
 	public function testNextDay() {
 		OnceADay::resetInstanceCounter();
@@ -42,7 +42,7 @@ class OnceADayTest extends TestCase {
 	}
 
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
 	 */
 	public function testMultiInstanceSpreading() {
 		OnceADay::resetInstanceCounter();
@@ -70,7 +70,7 @@ class OnceADayTest extends TestCase {
 	}
 
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay::getNextTimestamp
 	 */
 	public function testBasetimeOverride() {
 		OnceADay::resetInstanceCounter();
