@@ -23,7 +23,7 @@
 	"autoload": {
 		"psr-4": {
 			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\": "src/",
-			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\": "tests/phpunit/"
+			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\Unit\\": "tests/phpunit/unit/"
 		},
 		"files": [
 			"bootstrap.php"

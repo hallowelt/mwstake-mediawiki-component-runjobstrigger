@@ -1,14 +1,14 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Interval;
+namespace MWStake\MediaWiki\Component\RunJobsTrigger\Tests\Unit\Interval;
 
 use DateTime;
+use MediaWikiUnitTestCase;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek;
-use PHPUnit\Framework\TestCase;
 
-class OnceAWeekTest extends TestCase {
+class OnceAWeekTest extends MediaWikiUnitTestCase {
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
 	 */
 	public function testCurrentDay() {
 		$currentTS = new DateTime( '1970-01-01' );
@@ -24,7 +24,7 @@ class OnceAWeekTest extends TestCase {
 	}
 
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
 	 */
 	public function testNextWeek() {
 		$currentTS = new DateTime( '1970-01-01' );
@@ -40,7 +40,7 @@ class OnceAWeekTest extends TestCase {
 	}
 
 	/**
-	 * @covers MWStake\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
+	 * @covers MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceAWeek::getNextTimestamp
 	 */
 	public function testWeekdayOverride() {
 		$this->assertTrue( true );
