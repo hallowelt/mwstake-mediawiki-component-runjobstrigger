@@ -52,6 +52,9 @@ class Runner {
 		$this->logger->info( "End processing at " . date( 'Y-m-d H:i:s' ) );
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function shouldRunCurrentHandler() {
 		$status = $this->statusManager->getStatus( $this->currentHandler, new DateTime() );
 		if ( $status === IStatusManager::STATUS_RUNNING ) {
