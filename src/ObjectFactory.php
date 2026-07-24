@@ -2,8 +2,10 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
+use InvalidArgumentException;
 use MediaWiki\MediaWikiServices;
-use Wikimedia\ObjectFactory as WikimediaObjectFactory;
+use UnexpectedValueException;
+use Wikimedia\ObjectFactory\ObjectFactory as WikimediaObjectFactory;
 
 class ObjectFactory {
 
@@ -11,6 +13,7 @@ class ObjectFactory {
 	 * See `Wikimedia/ObjectFactory::getObjectFromSpec` for details
 	 *
 	 * @param array $spec
+	 * // phpcs:ignore MediaWiki.Commenting.FunctionComment.ObjectTypeHintReturn
 	 * @return object
 	 * @throws InvalidArgumentException
 	 * @throws UnexpectedValueException

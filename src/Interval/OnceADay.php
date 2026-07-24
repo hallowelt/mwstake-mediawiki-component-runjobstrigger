@@ -2,16 +2,18 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
+use DateTime;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Interval;
 
 class OnceADay implements Interval {
 
 	/**
 	 * Allows to shift execution of different handlers to avoid load peaks
-	 * @var  int
+	 * @var int
 	 */
 	protected static $instanceCounter = 0;
 
+	/** @var int */
 	protected $instanceNumber = 0;
 
 	public function __construct() {
@@ -20,7 +22,6 @@ class OnceADay implements Interval {
 	}
 
 	/**
-	 *
 	 * @param DateTime $currentRunTimestamp
 	 * @param array $options
 	 * @return DateTime

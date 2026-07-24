@@ -2,17 +2,14 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\HandlerFactory;
 
-use Config;
-use Hooks;
+use MediaWiki\Config\Config;
 use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class Hook extends Base {
 
-	/**
-	 * @var Config
-	 */
-	private $config = null;
+	/** @var Config */
+	private $config;
 
 	/**
 	 * @param Config|null $config
@@ -30,14 +27,11 @@ class Hook extends Base {
 	 * @inheritDoc
 	 */
 	public function processHandlers( $handlers ) {
-		$mwVersion = $this->config->get( 'Version' );
 		$handlerSpecs = [];
-		if ( version_compare( $mwVersion, '1.35', '>=' ) ) {
-			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
-			$hookContainer->run( 'MWStakeRunJobsTriggerRegisterHandlers', [ &$handlerSpecs ] );
-		} else {
-			Hooks::run( 'MWStakeRunJobsTriggerRegisterHandlers', [ &$handlerSpecs ] );
-		}
+		MediaWikiServices::getInstance()->getHookContainer()->run(
+			'MWStakeRunJobsTriggerRegisterHandlers',
+			[ &$handlerSpecs ]
+		);
 		foreach ( $handlerSpecs as $handlerId => $handlerSpec ) {
 			$handlers[$handlerId] = ObjectFactory::getObjectFromSpec( $handlerSpec );
 		}

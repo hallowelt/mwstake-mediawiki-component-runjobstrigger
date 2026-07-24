@@ -11,13 +11,32 @@ MediaWiki's [`maintenance/runJobs.php` script](https://www.mediawiki.org/wiki/Ma
 
 The frequency of that job determines the minimum frequency at which handlers can be invoked. It is recommended to invoke `maintenance/runJobs.php` every 15 minutes at a minimum.
 
+## Compatibility
+- `3.0.x` -> MediaWiki 1.43
+- `2.0.x` -> MediaWiki 1.39
+- `2.0.x` -> MediaWiki 1.35
+
 ## Use in a MediaWiki extension
 
-Add `"mwstake/mediawiki-component-runjobstrigger": "~1.0"` to the `require` section of your `composer.json` file.
+Require this component in the `composer.json` of your extension:
+
+```json
+{
+	"require": {
+		"mwstake/mediawiki-component-runjobstrigger": "~3"
+	}
+}
+```
+
+Since 2.0 explicit initialization is required. This can be achived by
+- either adding `"callback": "mwsInitComponents"` to your `extension.json`/`skin.json`
+- or calling `mwsInitComponents();` within you extensions/skins custom `callback` method
+
+See also [`mwstake/mediawiki-componentloader`](https://github.com/hallowelt/mwstake-mediawiki-componentloader).
 
 ### Implement a handler
 
-Create a class that implements `MWStake\MediaWiki\Component\RunJobsTrigger\IHandler`. For convenience, you may want to implement a subclass of the abstract base class `MWStake\MediaWiki\Component\RunJobsTrigger\HandlerBase`
+Create a class that implements `MWStake\MediaWiki\Component\RunJobsTrigger\IHandler`. For convenience, you may want to implement a subclass of the abstract base class `MWStake\MediaWiki\Component\RunJobsTrigger\Handler`
 
 In the `getInterval` method you can return any object that implements `MWStake\MediaWiki\Component\RunJobsTrigger\Interval`. There are a few predefined intevals available:
 - `MWStake\MediaWiki\Component\RunJobsTrigger\Interval\OnceADay`
@@ -36,18 +55,19 @@ In both cases, an [ObjectFactory specification](https://www.mediawiki.org/wiki/O
 *Example 1: GlobalVars*
 ```php
 $GLOBALS['mwsgRunJobsTriggerHandlerRegistry']['my-own-handler'] = [
-    'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
-    'services' => 'MainConfig'
+    'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler',
+    'services' => [ 'MainConfig' ]
 ];
 ```
 *Example 2: Hookhandler*
 ```php
 $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$handlers ) {
     $handlers["my-own-handler"] = [
-        'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler,
-        'services' => 'MainConfig'
-    ]
-}
+        'class' => '\\MediaWiki\Extension\\MyExt\\MyHandler',
+        'services' => [ 'MainConfig' ]
+    ];
+    return true;
+};
 ```
 
 ## Configuration
@@ -60,20 +80,24 @@ $GLOBALS['wgHooks']['MWStakeRunJobsTriggerRegisterHandlers'][] = function( &$han
 ### Using MediaWiki’s temporary directory to store data during execution
 
 Suppose an administrator wants to ensure that they can ensure any temporary files are created in MediaWiki’s temporary directory rather than somewhere else.  They could do this by adding the following to their `LocalSettings.php`:
-```
+
+```php
 $GLOBALS['mwsgRunJobsTriggerRunnerWorkingDir'] = $wgTmpDirectory;
 ```
 
 ### Changing the timing options
 
 A wiki administrator could add the following to their `LocalSettings.php` to have `OnceAWeek` tasks run on Friday instead of Sunday (by default):
-```
+
+```php
 $GLOBALS['mwsgRunJobsTriggerOptions']['*']['once-a-week-day'] = 'friday';
 ```
 
 ## Debugging
 A debug log can be enabled by adding
 
-    $GLOBALS['wgDebugLogGroups']['runjobs-trigger-runner'] = "/tmp/runjobs-trigger-runner.log";
+```php
+$GLOBALS['wgDebugLogGroups']['runjobs-trigger-runner'] = "/tmp/runjobs-trigger-runner.log";
+```
 
 to your `LocalSettings.php` file

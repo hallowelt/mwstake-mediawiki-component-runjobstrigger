@@ -2,16 +2,14 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\HandlerFactory;
 
-use Config;
-use GlobalVarConfig;
+use MediaWiki\Config\Config;
+use MediaWiki\Config\GlobalVarConfig;
 use MWStake\MediaWiki\Component\RunJobsTrigger\ObjectFactory;
 
 class GlobalVars extends Base {
 
-	/**
-	 * @var Config
-	 */
-	private $config = null;
+	/** @var Config */
+	private $config;
 
 	/**
 	 * @param Config|null $config

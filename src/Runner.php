@@ -2,32 +2,25 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
-use ConfigException;
 use DateTime;
 use Exception;
-use GlobalVarConfig;
-use JobQueueGroup;
+use MediaWiki\Config\ConfigException;
+use MediaWiki\Config\GlobalVarConfig;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MediaWikiServices;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Job\InvokeRunner;
 use Psr\Log\LoggerInterface;
 
 class Runner {
 
-	/**
-	 *
-	 * @var LoggerInterface
-	 */
-	private $logger = null;
+	/** @var LoggerInterface */
+	private $logger;
 
-	/**
-	 * @var IHandler[]
-	 */
+	/** @var IHandler[] */
 	private $handlers = [];
 
-	/**
-	 * @var IStatusManager
-	 */
-	private $statusManager = null;
+	/** @var IStatusManager */
+	private $statusManager;
 
 	/**
 	 * @param IHandler[] $handlers
@@ -59,6 +52,9 @@ class Runner {
 		$this->logger->info( "End processing at " . date( 'Y-m-d H:i:s' ) );
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function shouldRunCurrentHandler() {
 		$status = $this->statusManager->getStatus( $this->currentHandler, new DateTime() );
 		if ( $status === IStatusManager::STATUS_RUNNING ) {
@@ -129,7 +125,9 @@ class Runner {
 			return;
 		}
 
-		JobQueueGroup::singleton()->push( new InvokeRunner() );
+		MediaWikiServices::getInstance()->getJobQueueGroupFactory()
+			->makeJobQueueGroup()
+			->push( new InvokeRunner() );
 	}
 
 	/**

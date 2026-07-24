@@ -2,10 +2,10 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger\Job;
 
-use ConfigException;
 use Job;
+use MediaWiki\Config\ConfigException;
+use MediaWiki\Title\Title;
 use MWStake\MediaWiki\Component\RunJobsTrigger\Runner;
-use Title;
 
 class InvokeRunner extends Job {
 

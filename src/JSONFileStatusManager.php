@@ -6,14 +6,10 @@ use DateTime;
 
 class JSONFileStatusManager implements IStatusManager {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $workingdir = '';
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $options = [];
 
 	/**
@@ -127,7 +123,7 @@ class JSONFileStatusManager implements IStatusManager {
 
 		$fileData = file_get_contents( $filename );
 		$data = json_decode( $fileData, true );
-		if ( $data === false ) {
+		if ( !$data ) {
 			return $defaultData;
 		}
 
@@ -172,5 +168,16 @@ class JSONFileStatusManager implements IStatusManager {
 	 */
 	public function setRunning( $handler, $message = '' ) {
 		$this->setStatus( $handler, static::STATUS_RUNNING, $message );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function clear( $handler ) {
+		$filename = $this->getFilename( $handler );
+		if ( !is_file( $filename ) || !is_writable( $filename ) ) {
+			return;
+		}
+		unlink( $filename );
 	}
 }

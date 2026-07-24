@@ -4,38 +4,48 @@
 	"license": "GPL-3.0-only",
 	"authors": [
 		{
-			"name": "BlueSpice",
-			"email": "support@bluespice.com"
+			"name": "HalloWelt! GmbH",
+			"email": "info@hallowelt.com",
+			"homepage": "https://www.hallowelt.com"
 		}
 	],
+	"require": {
+		"composer/installers": "~1.0|~2",
+		"mwstake/mediawiki-componentloader": "~1"
+	},
 	"require-dev": {
-		"jakub-onderka/php-parallel-lint": "1.0.0",
-		"jakub-onderka/php-console-highlighter": "0.4.0",
-		"mediawiki/mediawiki-codesniffer": "29.0.0",
-		"mediawiki/minus-x": "1.0.0",
-		"phpunit/phpunit": "^6.5"
+		"mediawiki/mediawiki-codesniffer": "51.0.0",
+		"mediawiki/mediawiki-phan-config": "0.20.0",
+		"mediawiki/minus-x": "2.0.1",
+		"php-parallel-lint/php-console-highlighter": "1.0.0",
+		"php-parallel-lint/php-parallel-lint": "1.4.0"
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor --exclude node_modules",
+			"@phpcs",
+			"minus-x check ."
+		],
+		"fix": [
+			"minus-x fix .",
+			"phpcbf"
+		],
+		"phan": "phan -d . --long-progress-bar",
+		"phpcs": "phpcs -sp --cache"
 	},
 	"autoload": {
 		"psr-4": {
 			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\": "src/",
-			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\": "tests/phpunit/"
+			"MWStake\\MediaWiki\\Component\\RunJobsTrigger\\Tests\\Unit\\": "tests/phpunit/unit/"
 		},
 		"files": [
 			"bootstrap.php"
 		]
 	},
-	"scripts": {
-		"unittest": [
-			"vendor/phpunit/phpunit/phpunit --configuration .phpunit.xml"
-		],
-		"test": [
-			"parallel-lint . --exclude vendor --exclude node_modules",
-			"minus-x check .",
-			"phpcs -sp"
-		],
-		"fix": [
-			"minus-x fix .",
-			"phpcbf"
-		]
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }

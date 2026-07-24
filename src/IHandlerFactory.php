@@ -2,6 +2,8 @@
 
 namespace MWStake\MediaWiki\Component\RunJobsTrigger;
 
+use Exception;
+
 interface IHandlerFactory {
 
 	/**
